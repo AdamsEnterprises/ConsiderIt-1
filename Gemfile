@@ -1,14 +1,14 @@
 source 'http://rubygems.org'
 
 gem "therubyracer", :require => 'v8'
-gem 'rails', '~>3.2'
+gem 'rails', '~>3.2.11'
 
 gem "mysql2"
 
 gem 'thin'
 
 gem "haml"
-gem 'sass-rails',   "~> 3.2.3"
+gem 'sass-rails'#,   "~> 3.2.3"
 
 # https://github.com/plataformatec/devise
 gem 'devise'
@@ -34,8 +34,7 @@ gem 'cancan'
 gem 'role_model'
 
 # https://github.com/thoughtbot/paperclip
-gem 'rmagick'
-gem 'aws-sdk'
+#gem 'rmagick'
 gem 'paperclip'
 
 # https://github.com/amatsuda/kaminari
@@ -73,7 +72,7 @@ gem 'backup', "~>3.0.24"
 
 # https://github.com/fphilipe/premailer-rails3
 gem 'hpricot'
-gem 'premailer-rails3'
+gem 'premailer-rails'
 
 # https://github.com/bradphelan/rocket_tag
 # gem 'acts-as-taggable-on'
@@ -117,8 +116,9 @@ end
 gem 'newrelic_rpm'
 
 group :assets do
-  gem 'sass-rails',   "~> 3.2.3"
-  gem 'coffee-rails', "~> 3.2.1"
+  gem 'aws-sdk'
+  gem 'sass-rails'#,   "~> 3.2.3"
+  gem 'coffee-rails'#, "~> 3.2.1"
   gem 'uglifier'
   gem "asset_sync"
   gem 'turbo-sprockets-rails3'

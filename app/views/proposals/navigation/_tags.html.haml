@@ -10,10 +10,10 @@
   filter to
 
 %ul.filters.tags
-  - Proposal.tag_counts.order('count DESC').each do |tag|
+  - Proposal.active.public.popular_tags.each do |tag|
     %li.tag.filter
       = link_to(proposals_path(:tag => tag.name), :remote => true) do
 
         #{tag.name} 
         %span.tag_count
-          #{tag.count}
+          #{tag.tags_count}

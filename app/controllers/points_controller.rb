@@ -29,6 +29,8 @@ class PointsController < ApplicationController
 
 
     @proposal = Proposal.find_by_long_id(params[:long_id])
+    return if @proposal.nil?
+    
     @user = current_user
 
     ApplicationController.reset_user_activities(session, @proposal) if !session.has_key?(@proposal.id)
