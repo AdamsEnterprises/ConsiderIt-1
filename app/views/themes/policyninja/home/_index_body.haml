@@ -8,8 +8,9 @@
   = theme_image_tag 'shadow-big.png', :style => "margin-top: 4px"
 
 #active_proposals
-  .get_started
-    Get started by clicking an issue below.
+  - if get_proposals_by_rank.active.count > 0
+    .get_started
+      Get started by clicking an issue below.
 
   
   = render :partial => "proposals/blocks/strip", :locals => { :style => 'blocks', :hide_initially => false }

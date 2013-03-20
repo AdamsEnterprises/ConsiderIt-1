@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
   has_many :follows, :dependent => :destroy, :class_name => 'Followable::Follow'
 
   acts_as_tenant(:account)
-  attr_taggable :tags
+  #attr_taggable :tags
   is_trackable
   
   # Include default devise modules. Others available are:

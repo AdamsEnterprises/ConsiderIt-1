@@ -17,9 +17,13 @@
       %button.back
         &#9664;
   .carousel{ :name => "proposals" }
-    %ul
-      = render :partial => "proposals/blocks/item", :collection => get_proposals_by_rank.active, :as => :proposal, :locals => { :show_full_text => false, :style => style, :hide_initially => hide_initially, :prompt => prompt }
-    .clear
+    - proposals = get_proposals_by_rank.active
+    - if proposals.count > 0
+      %ul
+        = render :partial => "proposals/blocks/item", :collection => proposals, :as => :proposal, :locals => { :show_full_text => false, :style => style, :hide_initially => hide_initially, :prompt => prompt }
+      .clear
+    - else
+      There are currently no issues being discussed here. Please check back later.
 
   - if carousel
 
