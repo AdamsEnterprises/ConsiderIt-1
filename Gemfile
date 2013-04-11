@@ -111,6 +111,7 @@ end
 
 group :production do
   gem 'exception_notification'
+  gem "aws-ses", "~> 0.5.0", :require => 'aws/ses'  
 end
 
 gem 'newrelic_rpm'
