@@ -28,13 +28,19 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def _third_party_callback
 
     pp env["omniauth.auth"]
+
+    pp 'THIRD PARTY'
     @user = User.find_for_third_party_auth(env["omniauth.auth"], current_user)
+    pp "USER #{@user}"
     @user.referer = session[:referer] if session.has_key?(:referer)
     @user.save
-    
+
+    pp "USER SAVED"    
     if @user.persisted?
+      pp "USER PERSISTED"
       @user.skip_confirmation!
       sign_in @user, :event => :authentication
+      pp "USER SIGNED IN"
       if session.has_key?('position_to_be_published')
         session['reify_activities'] = true 
       end
@@ -47,17 +53,20 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       # end
 
     else
+      pp 'USER NOT PERSISTED'
       session["devise.third_party"] = env["omniauth.auth"]
       #redirect_to new_user_registration_url
     end
 
+    pp "REDIRECTING"
     @redirect_to = session[:return_to] || root_path
+    pp "RENDERING"
     render :inline =>
       '<script type="text/javascript">' +
       '  window.close();' +
       '  window.opener.location = "<%= @redirect_to %>";' +
       '</script>'
-
+    pp "DONE"
   end
  
 

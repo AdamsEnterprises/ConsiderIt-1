@@ -33,10 +33,10 @@ class User < ActiveRecord::Base
 
   attr_accessible :name, :bio, :email, :password, :password_confirmation, :remember_me, :avatar, :registration_complete, :roles_mask
 
-  attr_accessor :avatar_url
+  attr_accessor :avatar_url, :downloaded
 
   before_validation :download_remote_image, :if => :avatar_url_provided?
-  validates_presence_of :avatar_remote_url, :if => :avatar_url_provided?, :message => 'is invalid or inaccessible'
+  #validates_presence_of :avatar_remote_url, :if => :avatar_url_provided?, :message => 'is invalid or inaccessible'
   after_create :add_token
 
   roles :superadmin, :admin, :analyst, :moderator, :manager, :evaluator, :developer
@@ -74,7 +74,6 @@ class User < ActiveRecord::Base
   end
 
   def third_party_authenticated?
-    pp self
     if !self.facebook_uid.nil?
       'facebook' 
     elsif !self.google_uid.nil?
@@ -89,12 +88,15 @@ class User < ActiveRecord::Base
   end
 
   def download_remote_image
-    self.avatar_url = self.avatar_remote_url if avatar_url.nil?
-    io = open(URI.parse(self.avatar_url))
-    def io.original_filename; base_uri.path.split('/').last; end
-    self.avatar = io.original_filename.blank? ? nil : io
-    self.avatar_remote_url = avatar_url
-
+    if self.downloaded.nil?
+      self.downloaded = true
+      self.avatar_url = self.avatar_remote_url if avatar_url.nil?
+      io = open(URI.parse(self.avatar_url))
+      def io.original_filename; base_uri.path.split('/').last; end
+      self.avatar = io if !(io.original_filename.blank?)
+      self.avatar_remote_url = avatar_url
+      self.avatar_url = nil
+    end
   end
 
   def self.find_for_third_party_auth(access_token, signed_in_resource=nil)
@@ -136,6 +138,7 @@ class User < ActiveRecord::Base
             u.url = access_token.info.urls.Website ? access_token.info.urls.Website : access_token.info.urls.Twitter
             u.twitter_handle = access_token.info.nickname
             u.avatar_url = access_token.info.image
+
           when 'facebook'
             u.name = access_token.info.name
             u.email = access_token.info.email
@@ -146,6 +149,8 @@ class User < ActiveRecord::Base
             raise 'Unsupported provider'
         end
       end
+
+      pp user
       user.skip_confirmation!
       user.save
       user.track!

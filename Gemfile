@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 gem "therubyracer", :require => 'v8'
-gem 'rails', '~>3.2.11'
+gem 'rails', '~>3.2.13'
 
 gem "mysql2"
 
@@ -71,7 +71,7 @@ gem 'actionmailer-with-request'
 gem 'backup', "~>3.0.24"
 
 # https://github.com/fphilipe/premailer-rails3
-gem 'hpricot'
+#gem 'hpricot'
 gem 'premailer-rails'
 
 # https://github.com/bradphelan/rocket_tag
